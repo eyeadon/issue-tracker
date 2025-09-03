@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 // radix import above globals
 import "@radix-ui/themes/styles.css";
 import "./globals.css";
-import { Theme, ThemePanel } from "@radix-ui/themes";
+import { Theme } from "@radix-ui/themes";
 import NavBar from "./NavBar";
 
 export const metadata: Metadata = {
@@ -41,7 +41,7 @@ export default function RootLayout({
         <Theme appearance="light" accentColor="violet">
           <NavBar />
           <main className="p-5">{children}</main>
-          <ThemePanel />
+          {/* <ThemePanel /> */}
         </Theme>
       </body>
     </html>
