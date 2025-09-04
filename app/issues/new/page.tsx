@@ -1,6 +1,6 @@
 "use client";
-import { Button, TextField } from "@radix-ui/themes";
-import React from "react";
+import { Button, Callout, TextField } from "@radix-ui/themes";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
@@ -19,33 +19,45 @@ import { useRouter } from "next/navigation";
 
 const NewIssuePage = () => {
   const router = useRouter();
-
   const { register, control, handleSubmit } = useForm<IssueForm>();
+  const [error, setError] = useState("");
 
   return (
-    <form
-      className="max-w-xl space-y-3"
-      onSubmit={handleSubmit(async (data) => {
-        console.log(data);
-        const result = await axios.post("/api/issues", data);
-        console.log(result);
-        router.push("/issues");
-      })}
-    >
-      <TextField.Root placeholder="Title" {...register("title")}>
-        {/* // slot is for buttons and icons
+    <div className="max-w-xl">
+      {error && (
+        <Callout.Root color="red" className="mb-5">
+          <Callout.Text>{error}</Callout.Text>
+        </Callout.Root>
+      )}
+      <form
+        className="space-y-3"
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            console.log(data);
+            const result = await axios.post("/api/issues", data);
+            console.log(result);
+            router.push("/issues");
+          } catch (error) {
+            console.log(error);
+            setError("An unexpected error occured");
+          }
+        })}
+      >
+        <TextField.Root placeholder="Title" {...register("title")}>
+          {/* // slot is for buttons and icons
         <TextField.Slot></TextField.Slot> */}
-      </TextField.Root>
-      <Controller
-        name="description"
-        control={control}
-        render={({ field }) => (
-          <SimpleMDE placeholder="Description" {...field} />
-        )}
-      />
+        </TextField.Root>
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <SimpleMDE placeholder="Description" {...field} />
+          )}
+        />
 
-      <Button>Submit Issue</Button>
-    </form>
+        <Button>Submit Issue</Button>
+      </form>
+    </div>
   );
 };
 
