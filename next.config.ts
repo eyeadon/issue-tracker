@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [{ key: "referrer-policy", value: "no-referrer" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
