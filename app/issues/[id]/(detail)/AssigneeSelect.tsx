@@ -1,3 +1,4 @@
+"use client";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
 import { User } from "next-auth";
