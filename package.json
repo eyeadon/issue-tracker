@@ -20,6 +20,7 @@
     "classnames": "^2.5.1",
     "delay": "^6.0.0",
     "easymde": "^2.20.0",
+    "nanoid": "^5.1.5",
     "next": "15.5.2",
     "next-auth": "^4.24.11",
     "prisma": "^6.15.0",
