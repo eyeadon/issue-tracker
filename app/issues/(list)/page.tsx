@@ -5,14 +5,16 @@ import NextLink from "next/link";
 import IssueActions from "./IssueActions";
 import { Issue, Status } from "@/app/generated/prisma";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Pagination from "@/app/components/Pagination";
 
 interface Props {
-  searchParams: Promise<{ status: Status; orderBy: keyof Issue }>;
+  searchParams: Promise<{ status: Status; orderBy: keyof Issue; page: string }>;
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
   const searchParamsData = await searchParams;
-  const { status } = searchParamsData;
+  const { status, orderBy, page } = searchParamsData;
+
   const statuses = Object.values(Status);
 
   const statusToFilter = statuses.includes(status) ? status : undefined;
@@ -23,15 +25,22 @@ const IssuesPage = async ({ searchParams }: Props) => {
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
 
-  const orderBy = columns
-    .map((column) => column.value)
-    .includes(searchParamsData.orderBy)
-    ? { [searchParamsData.orderBy]: "asc" }
+  const order = columns.map((column) => column.value).includes(orderBy)
+    ? { [orderBy]: "asc" }
     : undefined;
+
+  const currentPage = parseInt(page) || 1;
+  const pageSize = 10;
 
   const issues = await prisma.issue.findMany({
     where: { status: statusToFilter },
-    orderBy,
+    orderBy: order,
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const issueCount = await prisma.issue.count({
+    where: { status: statusToFilter },
   });
 
   return (
@@ -52,9 +61,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
                 >
                   {column.label}
                 </NextLink>
-                {column.value === searchParamsData.orderBy && (
-                  <ArrowUpIcon className="inline" />
-                )}
+                {column.value === orderBy && <ArrowUpIcon className="inline" />}
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
@@ -81,6 +88,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
           })}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={issueCount}
+        pageSize={pageSize}
+        currentPage={currentPage}
+      />
     </div>
   );
 };

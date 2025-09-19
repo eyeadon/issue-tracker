@@ -8,7 +8,11 @@ const Home = async ({
   const { page } = await searchParams;
 
   return (
-    <Pagination itemCount={100} pageSize={10} currentPage={parseInt(page)} />
+    <Pagination
+      itemCount={100}
+      pageSize={10}
+      currentPage={parseInt(page) || 1}
+    />
   );
 };
 
