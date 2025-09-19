@@ -16,6 +16,8 @@ const IssueDetailPage = async ({ params }: Props) => {
   const { id } = await params;
   const session = await getServerSession(authOptions);
 
+  // if (!id) return NextResponse.json({ error: "Invalid id" }, { status: 404 });
+
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(id) },
   });
