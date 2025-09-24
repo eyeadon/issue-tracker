@@ -1,9 +1,6 @@
 -- CreateEnum
 CREATE TYPE "public"."Status" AS ENUM ('OPEN', 'IN_PROGRESS', 'CLOSED');
 
--- DropEnum
-DROP TYPE "public"."crdb_internal_region";
-
 -- CreateTable
 CREATE TABLE "public"."Widget" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
