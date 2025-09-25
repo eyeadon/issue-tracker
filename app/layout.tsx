@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 // radix import above globals
-// import "@radix-ui/themes/styles.css";
+import "@radix-ui/themes/styles.css";
 import "./globals.css";
 import { Container, Theme } from "@radix-ui/themes";
 import NavBar from "./NavBar";
