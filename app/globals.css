@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@import "react-loading-skeleton/dist/skeleton.css";
+@import "easymde/dist/easymde.min.css";
+@import "@radix-ui/themes/styles.css";
 
 :root {
   --background: #ffffff;
