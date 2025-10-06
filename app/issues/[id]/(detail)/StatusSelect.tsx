@@ -27,7 +27,7 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
         <Select.Trigger placeholder="Status..." />
         <Select.Content>
           <Select.Group>
-            {statusChoices?.map((status) => (
+            {statusChoices.map((status) => (
               <Select.Item key={status.label} value={status.value}>
                 {status.label}
               </Select.Item>
