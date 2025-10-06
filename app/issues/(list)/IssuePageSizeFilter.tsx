@@ -1,54 +1,54 @@
 "use client";
-import { Status } from "@/app/generated/prisma";
 import { Select } from "@radix-ui/themes";
 import { nanoid } from "nanoid";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const statuses: { label: string; value?: Status }[] = [
-  { label: "All" },
-  { label: "Open", value: "OPEN" },
-  { label: "In Progress", value: "IN_PROGRESS" },
-  { label: "Closed", value: "CLOSED" },
+const pageSizeChoices: { label: string; value: number }[] = [
+  { label: "5", value: 5 },
+  { label: "10", value: 10 },
+  { label: "20", value: 20 },
+  { label: "50", value: 50 },
 ];
 
-const IssueStatusFilter = () => {
+const IssuePageSizeFilter = () => {
   const router = useRouter();
   // read-only
   const searchParams = useSearchParams();
 
   return (
     <Select.Root
-      defaultValue={searchParams.get("status") || ""}
+      defaultValue={searchParams.get("pageSize") || ""}
       onValueChange={(selection) => {
         const params = new URLSearchParams();
 
-        // add status value
-        if (selection) params.append("status", selection);
+        // add pageSize value
+        if (selection) params.append("pageSize", selection);
 
         // add orderBy value
         const orderBy = searchParams.get("orderBy");
         if (orderBy) params.append("orderBy", orderBy!);
 
-        // add pageSize value
-        const pageSize = searchParams.get("pageSize");
-        if (pageSize) params.append("pageSize", pageSize!);
+        // add status value
+        const status = searchParams.get("status");
+        if (status) params.append("status", status!);
 
         const query = params.size ? "?" + params.toString() : "";
 
         router.push("/issues" + query);
       }}
     >
-      <Select.Trigger placeholder="Filter by Status..." />
+      <Select.Trigger placeholder="Page Size..." />
       <Select.Content>
-        {statuses.map((status) => {
+        {pageSizeChoices.map((pageSize) => {
           const generatedId = nanoid();
+
           return (
             <Select.Item
-              key={status.value + generatedId}
+              key={pageSize.value + generatedId}
               // must have value that is not an empty string
-              value={status.value || " "}
+              value={pageSize.value.toString() || " "}
             >
-              {status.label}
+              {pageSize.label}
             </Select.Item>
           );
         })}
@@ -57,4 +57,4 @@ const IssueStatusFilter = () => {
   );
 };
 
-export default IssueStatusFilter;
+export default IssuePageSizeFilter;

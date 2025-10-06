@@ -12,7 +12,11 @@ interface Props {
 
 const IssuesPage = async ({ searchParams }: Props) => {
   const searchParamsData = await searchParams;
-  const { status, orderBy, page } = searchParamsData;
+  const { status, orderBy, page, pageSize } = searchParamsData;
+
+  let pageSizeAsNumber = parseInt(pageSize);
+  // default page size
+  if (!pageSizeAsNumber) pageSizeAsNumber = 10;
 
   const statuses = Object.values(Status);
 
@@ -24,13 +28,12 @@ const IssuesPage = async ({ searchParams }: Props) => {
   if (!order) order = { createdAt: "desc" };
 
   const currentPage = parseInt(page) || 1;
-  const pageSize = 10;
 
   const issues = await prisma.issue.findMany({
     where: { status: statusToFilter },
     orderBy: order,
-    skip: (currentPage - 1) * pageSize,
-    take: pageSize,
+    skip: (currentPage - 1) * pageSizeAsNumber,
+    take: pageSizeAsNumber,
   });
 
   const issueCount = await prisma.issue.count({
@@ -43,7 +46,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
       <IssueTable searchParams={searchParams} issues={issues} />
       <Pagination
         itemCount={issueCount}
-        pageSize={pageSize}
+        pageSize={pageSizeAsNumber}
         currentPage={currentPage}
       />
     </Flex>
