@@ -40,7 +40,7 @@ const IssueDetailPage = async ({ params }: Props) => {
             <DeleteIssueButton issueId={issue.id} />
           </Flex>
         </Box>
-      )}{" "}
+      )}
     </Grid>
   );
 };
