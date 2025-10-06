@@ -19,8 +19,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const statusToFilter = statuses.includes(status) ? status : undefined;
 
   const order = columnNames.includes(orderBy)
-    ? { [orderBy]: "asc" }
-    : undefined;
+    ? { [orderBy]: "desc" }
+    : { createdAt: "desc" };
 
   const currentPage = parseInt(page) || 1;
   const pageSize = 10;
