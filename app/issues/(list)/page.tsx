@@ -18,9 +18,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
 
   const statusToFilter = statuses.includes(status) ? status : undefined;
 
-  const order = columnNames.includes(orderBy)
-    ? { [orderBy]: "desc" }
-    : { createdAt: "desc" };
+  let order = columnNames.includes(orderBy) ? { [orderBy]: "desc" } : undefined;
+
+  // default sort order for initial page load
+  if (!order) order = { createdAt: "desc" };
 
   const currentPage = parseInt(page) || 1;
   const pageSize = 10;
