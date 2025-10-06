@@ -14,7 +14,7 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
   const changeStatus = async (selectedStatus: Status) => {
     await axios
       .patch("/api/issues/" + issue.id, {
-        staus: selectedStatus,
+        status: selectedStatus,
       })
       .catch(() => {
         toast.error("Changes could not be saved.");
@@ -23,14 +23,10 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
 
   return (
     <>
-      <Select.Root
-        defaultValue={issue.status || "unassigned"}
-        onValueChange={changeStatus}
-      >
+      <Select.Root defaultValue={issue.status} onValueChange={changeStatus}>
         <Select.Trigger placeholder="Status..." />
         <Select.Content>
           <Select.Group>
-            <Select.Item value="unassigned">Unassigned</Select.Item>
             {statusChoices?.map((status) => (
               <Select.Item key={status.label} value={status.value}>
                 {status.label}
