@@ -2,6 +2,7 @@
 import { Issue, Status } from "@/app/generated/prisma";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 const statusChoices: { label: string; value: Status }[] = [
@@ -11,6 +12,8 @@ const statusChoices: { label: string; value: Status }[] = [
 ];
 
 const StatusSelect = ({ issue }: { issue: Issue }) => {
+  const router = useRouter();
+
   const changeStatus = async (selectedStatus: Status) => {
     await axios
       .patch("/api/issues/" + issue.id, {
@@ -19,6 +22,8 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
       .catch(() => {
         toast.error("Changes could not be saved.");
       });
+
+    router.refresh();
   };
 
   return (
