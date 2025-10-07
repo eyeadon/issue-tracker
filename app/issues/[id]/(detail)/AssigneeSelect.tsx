@@ -16,12 +16,17 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   if (isLoading) return <Skeleton />;
 
   const assignIssue = async (userId: string | null) => {
-    if (userId === "unassigned") userId = null;
+    let statusUpdateOnAssign: string = "IN_PROGRESS";
+
+    if (userId === "unassigned") {
+      userId = null;
+      statusUpdateOnAssign = issue.status;
+    }
 
     await axios
       .patch("/api/issues/" + issue.id, {
         assignedToUserId: userId || null,
-        status: "IN_PROGRESS",
+        status: statusUpdateOnAssign,
       })
       .catch(() => {
         toast.error("Changes could not be saved.");
