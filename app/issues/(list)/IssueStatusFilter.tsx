@@ -20,18 +20,13 @@ const IssueStatusFilter = () => {
     <Select.Root
       defaultValue={searchParams.get("status") || ""}
       onValueChange={(selection) => {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams(searchParams.toString());
 
-        // add status value
-        if (selection) params.append("status", selection);
-
-        // add orderBy value
-        const orderBy = searchParams.get("orderBy");
-        if (orderBy) params.append("orderBy", orderBy!);
-
-        // add pageSize value
-        const pageSize = searchParams.get("pageSize");
-        if (pageSize) params.append("pageSize", pageSize!);
+        // replace status value
+        if (selection) {
+          if (searchParams.has("status")) params.delete("status");
+          params.append("status", selection);
+        }
 
         const query = params.size ? "?" + params.toString() : "";
 

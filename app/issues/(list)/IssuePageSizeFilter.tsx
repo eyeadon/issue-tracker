@@ -19,18 +19,13 @@ const IssuePageSizeFilter = () => {
     <Select.Root
       defaultValue={searchParams.get("pageSize") || ""}
       onValueChange={(selection) => {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams(searchParams.toString());
 
-        // add pageSize value
-        if (selection) params.append("pageSize", selection);
-
-        // add orderBy value
-        const orderBy = searchParams.get("orderBy");
-        if (orderBy) params.append("orderBy", orderBy!);
-
-        // add status value
-        const status = searchParams.get("status");
-        if (status) params.append("status", status!);
+        // replace pageSize value
+        if (selection) {
+          if (searchParams.has("pageSize")) params.delete("pageSize");
+          params.append("pageSize", selection);
+        }
 
         const query = params.size ? "?" + params.toString() : "";
 
