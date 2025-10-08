@@ -1,4 +1,5 @@
 import { IssueStatusBadge } from "@/app/components";
+import AssignedUser from "@/app/components/AssignedUser";
 import { Issue, Status } from "@/app/generated/prisma";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { Link, Table } from "@radix-ui/themes";
@@ -58,6 +59,9 @@ const IssueTable = async ({ searchParams, issues }: Props) => {
               <Table.Cell className="hidden md:table-cell">
                 {issue.createdAt.toDateString()}
               </Table.Cell>
+              <Table.Cell className="hidden md:table-cell">
+                <AssignedUser issue={issue} />
+              </Table.Cell>
             </Table.Row>
           );
         })}
@@ -70,6 +74,11 @@ const columns: { label: string; value: keyof Issue; className?: string }[] = [
   { label: "Issue", value: "title" },
   { label: "Status", value: "status", className: "hidden md:table-cell" },
   { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
+  {
+    label: "Assigned To",
+    value: "assignedToUserId",
+    className: "hidden md:table-cell",
+  },
 ];
 
 export const columnNames = columns.map((column) => column.value);
