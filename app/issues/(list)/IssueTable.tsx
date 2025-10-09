@@ -2,7 +2,7 @@ import { IssueStatusBadge } from "@/app/components";
 import AssignedUser from "@/app/components/AssignedUser";
 import { Issue, Status } from "@/app/generated/prisma";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
-import { Link, Table } from "@radix-ui/themes";
+import { Flex, Link, Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 
 export interface IssueQuery {
@@ -47,10 +47,12 @@ const IssueTable = async ({ searchParams, issues }: Props) => {
       <Table.Body>
         {issues.map((issue) => {
           return (
-            <Table.Row key={issue.id}>
+            <Table.Row key={issue.id} align="center">
               <Table.RowHeaderCell>
-                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="block md:hidden">
+                <Flex align="center" minHeight="2rem">
+                  <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+                </Flex>
+                <div className="block md:hidden pt-2">
                   <IssueStatusBadge status={issue.status} />
                 </div>
               </Table.RowHeaderCell>
