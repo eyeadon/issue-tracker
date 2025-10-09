@@ -12,7 +12,7 @@ interface Props {
 
 const IssuesPage = async ({ searchParams }: Props) => {
   const searchParamsData = await searchParams;
-  const { status, orderBy, page, pageSize } = searchParamsData;
+  const { status, orderBy, page, pageSize, assignee } = searchParamsData;
 
   let pageSizeAsNumber = parseInt(pageSize);
   // default page size
@@ -20,6 +20,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
 
   const statuses = Object.values(Status);
 
+  // passing undefined to prisma will return no result for that operation
   const statusToFilter = statuses.includes(status) ? status : undefined;
 
   let order = columnNames.includes(orderBy) ? { [orderBy]: "desc" } : undefined;
@@ -29,15 +30,18 @@ const IssuesPage = async ({ searchParams }: Props) => {
 
   const currentPage = parseInt(page) || 1;
 
+  let assigneeSelection: string | undefined = assignee;
+  if (assigneeSelection === "unassigned") assigneeSelection = undefined;
+
   const issues = await prisma.issue.findMany({
-    where: { status: statusToFilter },
+    where: { status: statusToFilter, assignedToUserId: assigneeSelection },
     orderBy: order,
     skip: (currentPage - 1) * pageSizeAsNumber,
     take: pageSizeAsNumber,
   });
 
   const issueCount = await prisma.issue.count({
-    where: { status: statusToFilter },
+    where: { status: statusToFilter, assignedToUserId: assigneeSelection },
   });
 
   return (

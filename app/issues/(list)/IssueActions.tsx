@@ -3,12 +3,14 @@ import Link from "next/link";
 import React from "react";
 import IssueStatusFilter from "./IssueStatusFilter";
 import IssuePageSizeFilter from "./IssuePageSizeFilter";
+import IssueAssigneeFilter from "./IssueAssigneeFilter";
 
 const IssueActions = () => {
   return (
     <Flex justify="start" gap="2">
       <IssueStatusFilter />
       <IssuePageSizeFilter />
+      <IssueAssigneeFilter />
       <Button>
         <Link href="/issues/new">New Issue</Link>
       </Button>
