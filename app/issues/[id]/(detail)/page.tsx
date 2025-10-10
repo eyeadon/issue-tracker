@@ -36,8 +36,6 @@ const IssueDetailPage = async ({ params }: Props) => {
     // take: 5,
   });
 
-  console.log(comments);
-
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
