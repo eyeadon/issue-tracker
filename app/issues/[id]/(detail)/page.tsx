@@ -36,11 +36,13 @@ const IssueDetailPage = async ({ params }: Props) => {
     // take: 5,
   });
 
+  console.log(comments);
+
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
-        {comments && <h2 className="font-bold py-2">Comments</h2>}
+        {comments.length > 0 && <h2 className="font-bold py-2">Comments</h2>}
         {comments &&
           comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
