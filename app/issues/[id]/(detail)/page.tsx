@@ -3,6 +3,7 @@ import { Box, Flex, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
+import Comment from "./Comment";
 import DeleteIssueButton from "./DeleteIssueButton";
 import authOptions from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
@@ -29,11 +30,22 @@ const IssueDetailPage = async ({ params }: Props) => {
 
   if (!issue) notFound();
 
+  const comments = await prisma.comment.findMany({
+    where: { issueId: parseInt(id) },
+    orderBy: { createdAt: "asc" },
+    // take: 5,
+  });
+
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
+        {comments &&
+          comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
         <Box pt="2">
+          <h2 className="font-bold p-2">Add Comment</h2>
           {session && <IssueCommentForm session={session} issue={issue} />}
         </Box>
       </Box>

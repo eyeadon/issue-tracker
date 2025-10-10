@@ -25,12 +25,13 @@ model Issue {
 }
 
 model Comment {
-  id          Int    @id @default(sequence())
+  id          Int      @id @default(sequence())
   authorId    String
-  author      User   @relation(fields: [authorId], references: [id])
+  author      User     @relation(fields: [authorId], references: [id])
   issueId     Int
-  issue       Issue  @relation(fields: [issueId], references: [id])
+  issue       Issue    @relation(fields: [issueId], references: [id])
   description String
+  createdAt   DateTime @default(now())
 }
 
 model User {

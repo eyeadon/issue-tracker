@@ -1,0 +1,5 @@
+-- AlterSequence
+ALTER SEQUENCE "Comment_id_seq" MAXVALUE 9223372036854775807;
+
+-- AlterTable
+ALTER TABLE "public"."Comment" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
