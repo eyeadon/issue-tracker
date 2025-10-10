@@ -40,12 +40,13 @@ const IssueDetailPage = async ({ params }: Props) => {
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
+        {comments && <h2 className="font-bold py-2">Comments</h2>}
         {comments &&
           comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
         <Box pt="2">
-          <h2 className="font-bold p-2">Add Comment</h2>
+          <h2 className="font-bold py-2">Add Comment</h2>
           {session && <IssueCommentForm session={session} issue={issue} />}
         </Box>
       </Box>
