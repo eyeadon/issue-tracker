@@ -9,6 +9,7 @@ import { getServerSession } from "next-auth";
 import AssigneeSelect from "./AssigneeSelect";
 import { cache } from "react";
 import StatusSelect from "./StatusSelect";
+import IssueCommentForm from "../../_components/IssueCommentForm";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -32,7 +33,11 @@ const IssueDetailPage = async ({ params }: Props) => {
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
+        <Box pt="2">
+          {session && <IssueCommentForm session={session} issue={issue} />}
+        </Box>
       </Box>
+
       {session && (
         <Box>
           <Flex direction="column" gap="4">

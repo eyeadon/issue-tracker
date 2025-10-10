@@ -17,7 +17,7 @@ const IssueAssigneeFilter = () => {
     <Select.Root
       defaultValue={searchParams.get("assignee") || ""}
       onValueChange={(selection) => {
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(searchParams);
 
         // replace status value
         if (selection) {

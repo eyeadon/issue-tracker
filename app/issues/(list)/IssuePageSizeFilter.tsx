@@ -19,7 +19,7 @@ const IssuePageSizeFilter = () => {
     <Select.Root
       defaultValue={searchParams.get("pageSize") || ""}
       onValueChange={(selection) => {
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(searchParams);
 
         // replace pageSize value
         if (selection) {

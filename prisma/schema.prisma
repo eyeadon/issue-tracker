@@ -13,29 +13,40 @@ model Widget {
 }
 
 model Issue {
-  id               Int      @id @default(sequence())
+  id               Int       @id @default(sequence())
   title            String
   description      String
-  status           Status   @default(OPEN)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  status           Status    @default(OPEN)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
   assignedToUserId String?
-  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
+  assignedToUser   User?     @relation(fields: [assignedToUserId], references: [id])
+  comments         Comment[]
+}
+
+model Comment {
+  id          Int    @id @default(sequence())
+  authorId    String
+  author      User   @relation(fields: [authorId], references: [id])
+  issueId     Int
+  issue       Issue  @relation(fields: [issueId], references: [id])
+  description String
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  username       String?         @unique
-  email          String?         @unique
-  emailVerified  DateTime?
-  image          String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  accounts       Account?
-  Authenticator  Authenticator[]
-  assignedIssues Issue[]
-  sessions       Session[]
+  id               String          @id @default(cuid())
+  name             String?
+  username         String?         @unique
+  email            String?         @unique
+  emailVerified    DateTime?
+  image            String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  accounts         Account?
+  Authenticator    Authenticator[]
+  assignedIssues   Issue[]
+  sessions         Session[]
+  commentsAuthored Comment[]
 }
 
 model Account {
